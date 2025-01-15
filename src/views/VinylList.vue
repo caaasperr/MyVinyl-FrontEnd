@@ -777,7 +777,7 @@
     </template>
     <template #footer>
       <button @click="isUpdatingShelf = false; updatingShelfSelectedSlot = 0;" class="modalButton">Close</button>
-      <button @click="updateShelves(); updatingShelfSelectedSlot = 0;" class="modalButton right">Submit</button>
+      <button @click="updateShelves();" class="modalButton right">Submit</button>
     </template>
   </modal>
 </template>
@@ -913,6 +913,9 @@ export default {
       for (const id of this.selectedVinyls) {
           await this.updateShelf(id, this.updatingShelfSelectedSlot);
       }
+      this.fetchVinyls();
+      this.updatingShelfSelectedSlot = 0;
+      this.selectedShelf = 0;
       this.isUpdatingShelf = false;
     },
     async updateShelf(id, sId) {

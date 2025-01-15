@@ -56,8 +56,8 @@
             <div class="shelfInfoTitle">Shelf Information</div>
           </div>
           <div style="max-height: 430px; overflow-y: auto;">
-            <input class="nameInput" type="text" :value="shelf.Name" placeholder="Name...">
-            <textarea class="detailTa" :value="shelf.Detail" placeholder="Detail..."></textarea>
+            <input class="nameInput" type="text" v-model="updateShelfData.Name" placeholder="Name...">
+            <textarea class="detailTa" v-model="updateShelfData.Detail" placeholder="Detail..."></textarea>
             <div class="adjustTitle">{{ $t("shelf.setting.setting_enabled") }}</div>
             <table class="grid-table small" v-if="shelf.Columns && shelf.Rows">
               <tbody>
@@ -67,7 +67,7 @@
                       <div
                         class="cell_box small"
                       >
-                        <input type="checkbox" :checked="getSlot(r - 1, c - 1).Enabled">
+                        <input type="checkbox" :checked="getSlot(r - 1, c - 1).Enabled" @change="updateJson(getSlot(r - 1, c - 1).ID, $event.target.checked)">
                       </div>
                     </div>
                   </td>
@@ -77,8 +77,8 @@
             <div @click="isDeleteShelf = true;" class="shelf_delete">Delete Shelf</div>
           </div>
           <div class="bottom_nav">
-            <div class="bottom_button" @click="isOpeningInfo = false;">Close</div>
-            <div class="bottom_button right">Save Changes</div>
+            <div class="bottom_button" @click="isOpeningInfo = false && updateShelfData;">Close</div>
+            <div class="bottom_button right" @click="updateAll">Save Changes</div>
           </div>
         </div>
       </div>
@@ -111,7 +111,12 @@ export default {
         Rows: 0,
         Slots: [],
       },
+      updateShelfData: {
+        Name: '',
+        Detail: '',
+      },
       vinyls: [],
+      slotState: {},
       selectedShelfSlot: 0,
       isDeleteShelf: false,
       isOpeningInfo: false,
@@ -121,10 +126,19 @@ export default {
     Modal,
   },
   methods: {
+    refreshUpdateShelfData() {
+      this.slotState = this.shelf["Slots"].reduce((acc, item) => {
+        acc[item.ID] = item.Enabled;
+        return acc
+      }, {});
+      this.updateShelfData.Name = this.shelf.Name;
+      this.updateShelfData.Detail = this.shelf.Detail;
+    },
     async getShelf() {
       try {
         const response = await apiClient.get('/shelves/' + this.$route.params.id);
         this.shelf = response.data;
+        this.refreshUpdateShelfData();
         console.log(response);
       } catch (error) {
         console.error('Error fetching Shelf:', error);
@@ -145,6 +159,32 @@ export default {
     getSlotById(id) {
       return this.shelf.Slots.find(slot => slot.ID === id);
     },
+    async updateAll() {
+      await this.updateShelf();
+      await this.updateShelfSlotState();
+      this.getShelf();
+      this.isOpeningInfo = false;
+    },
+    async updateShelf() {
+      try {
+        const response = await apiClient.put('/shelves/' + this.$route.params.id, this.updateShelfData);
+        console.log(response);
+      } catch (error) {
+        console.error('Error fetching Shelf:', error);
+      }
+    },
+    async updateShelfSlotState() {
+      try {
+        const changeState = Object.entries(this.slotState).map(([id, state]) => ({
+          ID: parseInt(id), // ID로 변환
+          State: state,     // State 키와 값 설정
+        }));
+        const response = await apiClient.put('/shelves/' + this.$route.params.id + '/slots/state', {SlotsID: changeState});
+        console.log(response);
+      } catch (error) {
+        console.error('Error fetching Shelf:', error);
+      }
+    },
     async getShelfslotVinyls(id) {
       try {
         const response = await apiClient.get('/shelves/' + this.$route.params.id + '/slots/' + id);
@@ -152,6 +192,9 @@ export default {
       } catch (error) {
         console.error('Error fetching Shelf:', error);
       }
+    },
+    updateJson(id, isChecked) {
+      this.slotState[id] = isChecked;
     },
   },
   created() {

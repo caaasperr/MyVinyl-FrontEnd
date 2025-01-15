@@ -21,6 +21,7 @@
       <div @click="isCreatingShelf = true" class="create">
         Create
       </div>
+      <div v-if="shelves.length === 0">Shelf list is empty...</div>
       <div class="table_wrapper" v-if="shelves">
         <div @click="toShelf(i.ID)" class="shelf" v-for="i in shelves" :key="i">
           <img width="130px" height="130px" src="../assets/shelf.png" :onerror="onImageError"/>

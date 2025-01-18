@@ -55,11 +55,14 @@
         "pickrandom": "Random",
         "toshelf": "To Shelf",
         "setting": "Setting",
+        "nonVinyl": "Add vinyls to manage your collection!",
         "detail": {
             "detailTitle": "Detail",
             "conditionTitle": "Condition",
             "conditionSleeve": "Sleeve",
-            "conditionMedia": "Media"
+            "conditionMedia": "Media",
+            "formatTitle": "Format",
+            "priceTitle": "Price"
         },
         "table": {
             "idx": "#",

@@ -37,13 +37,31 @@
           </div>
         </div>
         <br />
-        <div v-if="selectedVinyl.Detail" class="detail_container">
+        <div v-if="selectedVinyl.Detail || selectedVinyl.Format || selectedVinyl.Price" class="detail_container">
           <div class="detail_container_title">
             {{ $t("vinyllist.detail.detailTitle") }}
           </div>
         </div>
-        <div v-if="selectedVinyl.Detail" class="detail_container_content">
+        <div v-if="selectedVinyl.Detail || selectedVinyl.Format || selectedVinyl.Price" class="detail_container_content">
           {{ selectedVinyl.Detail }}
+          <div v-if="selectedVinyl.Format || selectedVinyl.Price" class="priceAndFormat">
+              <div v-if="selectedVinyl.Format" class="detail_fnp">
+                <div class="condition_title">
+                  {{ $t("vinyllist.detail.formatTitle") }}
+                </div>
+                <div class="fnp_content">
+                  {{ idxToFormat(selectedVinyl.Format) }}
+                </div>
+              </div>
+              <div v-if="selectedVinyl.Price" class="detail_fnp">
+                <div class="condition_title">
+                  {{ $t("vinyllist.detail.priceTitle") }}
+                </div>
+                <div class="fnp_content">
+                  {{ sign }} {{ selectedVinyl.Price }}
+                </div>
+              </div>
+            </div>
         </div>
         <div
           v-if="selectedVinyl.Sleeve || selectedVinyl.Media"
@@ -116,12 +134,23 @@
           </div>
           <div>
             <div class="dropImage">
-              <!-- ClassName Is So Fxxking LONG -->
+              <!-- ClassName Is So Fxxking LONG
               <div
                 class="getAlbumCoversFromGivenInformationButton"
                 @click="getCovers"
               >
                 {{ $t("vinyllist.addAlbum.addVinylAlbumCoverButton") }}
+              </div>-->
+              <div class="addAlbumCoversWrapper">
+                <input
+                  type="text"
+                  class="addAlbumCoversSearchQuery"
+                  placeholder="Search Album Covers"
+                  v-model="addEditAlbumSearchQuery"
+                >
+                <button
+                  class="addAlbumCoversSearchButton"
+                  @click="getCovers">Search</button>
               </div>
               <div class="pure-g albumCoversResult">
                 <div
@@ -191,6 +220,40 @@
               v-model="addVinylData.detail"
               placeholder="Add some text..."
             ></textarea>
+            <div class="priceAndFormat">
+              <div class="media">
+                <div class="condition_title">
+                  {{ $t("vinyllist.detail.formatTitle") }}
+                </div>
+                <select
+                  id="multi-state"
+                  class="pure-input-1-2"
+                  v-model="addVinylData.Format"
+                >
+                  <option value="0">
+                    {{ $t("vinyllist.addAlbum.dropdownNone") }}
+                  </option>
+                  <option
+                    v-for="(c, idx) in formats"
+                    :key="idx"
+                    :value="idx+1"
+                  >
+                    {{ c }}
+                  </option>
+                </select>
+              </div>
+              <div class="sleeve">
+                <div class="condition_title">
+                  {{ $t("vinyllist.detail.priceTitle") }}
+                </div>
+                <input
+                  class="addAlbumPrice"
+                  type="number"
+                  v-model="addVinylData.Price"
+                  placeholder="Amount"
+                />
+              </div>
+            </div>
             <div class="detail_container">
               <div class="detail_container_title">
                 {{ $t("vinyllist.detail.conditionTitle") }}
@@ -296,11 +359,16 @@
           <div>
             <div class="dropImage">
               <!-- ClassName Is So Fxxking LONG -->
-              <div
-                class="getAlbumCoversFromGivenInformationButton"
-                @click="getCovers"
-              >
-                {{ $t("vinyllist.addAlbum.addVinylAlbumCoverButton") }}
+              <div class="addAlbumCoversWrapper">
+                <input
+                  type="text"
+                  class="addAlbumCoversSearchQuery"
+                  placeholder="Search Album Covers"
+                  v-model="addEditAlbumSearchQuery"
+                >
+                <button
+                  class="addAlbumCoversSearchButton"
+                  @click="getCovers">Search</button>
               </div>
               <img width="250px" height="250px" v-if="resultCovers.length == 0" :src="this.editingVinylData.ImageURL">
               <div class="pure-g albumCoversResult">
@@ -353,7 +421,7 @@
                 />
               </div>
               <div class="addAlbumClearSubmitContainer">
-                <div class="editAlbumSubmitButton" @click="addVinyl">
+                <div class="editAlbumSubmitButton" @click="updateVinyl">
                   {{ $t("vinyllist.editAlbum.submit") }}
                 </div>
               </div>
@@ -368,6 +436,40 @@
               v-model="editingVinylData.Detail"
               placeholder="Add some text..."
             ></textarea>
+            <div class="priceAndFormat">
+              <div class="media">
+                <div class="condition_title">
+                  {{ $t("vinyllist.detail.formatTitle") }}
+                </div>
+                <select
+                  id="multi-state"
+                  class="pure-input-1-2"
+                  v-model="editingVinylData.Format"
+                >
+                  <option value="0">
+                    {{ $t("vinyllist.addAlbum.dropdownNone") }}
+                  </option>
+                  <option
+                    v-for="(c, idx) in formats"
+                    :key="idx"
+                    :value="idx+1"
+                  >
+                    {{ c }}
+                  </option>
+                </select>
+              </div>
+              <div class="sleeve">
+                <div class="condition_title">
+                  {{ $t("vinyllist.detail.priceTitle") }}
+                </div>
+                <input
+                  class="addAlbumPrice"
+                  type="number"
+                  v-model="editingVinylData.Price"
+                  placeholder="Amount"
+                />
+              </div>
+            </div>
             <div class="detail_container">
               <div class="detail_container_title">
                 {{ $t("vinyllist.detail.conditionTitle") }}
@@ -573,7 +675,7 @@
         <div
           class="navButton"
           :class="{ 'disabled': selectedVinyls.length === 0 }"
-          @click="removeVinyls"
+          @click="openDeleteVinyls();"
         >
           {{ $t("vinyllist.remove") }}
         </div>
@@ -699,10 +801,13 @@
             <td v-if="setting.listItem.includes('media')">
               {{ idxToCondition(vinyl.Media) }}
             </td>
-            <td v-if="setting.listItem.includes('location')"></td>
+            <td v-if="setting.listItem.includes('location')">
+              {{ vinyl.Shelfslot.Bookshelf.Name }}
+            </td>
           </tr>
         </tbody>
       </table>
+      <div class="isNotVinyls" v-if="vinyls.length === 0">{{ $t("vinyllist.nonVinyl") }}</div>
     </div>
     <div
       v-if="$route.query.viewType == 1"
@@ -739,6 +844,18 @@
     </div>
   </div>
   <!--Modal Zones-->
+  <modal v-if="isRemovingVinyls" @close="isRemovingVinyls = false">
+    <template #header>
+      <p>Removing vinyls</p>
+    </template>
+    <template #body>
+      <p>Are you sure you want to remove selected vinyls? ({{ selectedVinyls.length }})</p>
+    </template>
+    <template #footer>
+      <button @click="isRemovingVinyls = false;" class="modalButton">Close</button>
+      <button @click="removeVinyls();" class="modalButton right">Remove</button>
+    </template>
+  </modal>
   <modal v-if="isUpdatingShelf" @close="isUpdatingShelf = false">
     <template #header>
       <p>Vinyls To Shelf</p>
@@ -793,6 +910,7 @@ export default {
       isShowDetail: true,
       isAddingVinyl: false,
       isEditingVinyl: false,
+      isRemovingVinyls: false,
       isSetting: false,
       vinyls: [],
       sign: "KRW",
@@ -804,6 +922,7 @@ export default {
       shelves: [],
       resultCovers: [],
       selectedVinyls: [],
+      addEditAlbumSearchQuery: '',
       selectedShelf: 0,
       shelf: [],
       selectedVinylShelf: [],
@@ -812,6 +931,7 @@ export default {
       conditions: ["Mint", "Near Mint", "Very Good Plus", "Good Plus", "Good", "Fair", "Poor", "Generic", "No Cover"],
       mediaConditions: ["Mint", "Near Mint", "Very Good Plus", "Good Plus", "Good", "Fair", "Poor"],
       genres: ["Pop", "Rock", "Hip Hop", "Jazz", "Classical", "Electronic", "R&B", "Country", "Reggae", "Blues", "World Pop"],
+      formats: ["LP", "EP", "Single", "CD", "Cassette", "DVD", "VHS", "Blu-ray", "Other"],
       setting: {
         listMaxNumber: 15,
         listItem: ['name', 'artist', 'price', 'genre', 'year', 'sleeve', 'media', 'location'],
@@ -824,15 +944,18 @@ export default {
         artist: '',
         GenreID: 0,
         ReleasedDate: '',
+        Price: 0,
+        Format: 0,
         detail: '',
         sleeve: 0,
         media: 0,
-        ShelfslotID: 0,
       },
       addVinylData: {
         name: '',
         artist: '',
         GenreID: 0,
+        Price: 0,
+        Format: 0,
         ReleasedDate: '',
         detail: '',
         sleeve: 0,
@@ -889,10 +1012,10 @@ export default {
       this.setting.listItem = lMI;
     }
     if (lMN) {
-      this.setting.listMaxNumber = lMN;
+      this.setting.listMaxNumber = parseInt(lMN);
     }
     if (gMNPL) {
-      this.setting.gridMaxNumberPerLine = gMNPL;
+      this.setting.gridMaxNumberPerLine = parseInt(gMNPL);
     }
   },
   beforeUnmount() {
@@ -905,6 +1028,35 @@ export default {
       } else {
         this.isUpdatingShelf = true;
       }
+    },
+    openDeleteVinyls() {
+      if (this.selectedVinyls.length === 0) {
+        return; // 선택된 바이닐이 없으면 메서드 실행 안 함
+      } else {
+        this.isRemovingVinyls = true;
+      }
+    },
+    async updateVinyl() {
+      try {
+          this.editingVinylData.ReleasedDate = this.editingVinylData.ReleasedDate.toString();
+          await apiClient.put('/vinyls/' + this.editingVinylData.ID, this.editingVinylData);
+          this.editingVinylData = {
+            id: 0,
+            name: '',
+            artist: '',
+            GenreID: 0,
+            ReleasedDate: '',
+            detail: '',
+            sleeve: 0,
+            media: 0,
+            ShelfslotID: 0,
+          };
+          this.isEditingVinyl = false;
+          this.isShowDetail = true;
+          this.fetchVinyls();
+        } catch (error) {
+          console.error('Error creating vinyl:', error);
+        }
     },
     async updateShelves() {
       if (this.selectedVinyls.length === 0 || this.updatingShelfSelectedSlot === 0) {
@@ -953,8 +1105,7 @@ export default {
     },
     async getCovers() {
       try {
-        this.albumCoverReq.Name = this.addVinylData.name;
-        this.albumCoverReq.Artist = this.addVinylData.artist;
+        this.albumCoverReq.Name = this.addEditAlbumSearchQuery;
         const response = await apiClient.post('/vinyls/covers', this.albumCoverReq);
         this.resultCovers = response.data['albums'];
         console.log(response.data['albums']);
@@ -967,7 +1118,7 @@ export default {
           this.addVinylData.ReleasedDate = this.addVinylData.ReleasedDate.toString();
           await apiClient.post('/vinyls', this.addVinylData);
           this.clearAddVinyl();
-          this.fetchVinyls();
+          await this.fetchVinyls();
         } catch (error) {
           console.error('Error creating vinyl:', error);
         }
@@ -1018,6 +1169,8 @@ export default {
           await this.removeVinyl(id);
       }
       this.selectedVinyls = [];
+      
+      this.isRemovingVinyls = false;
 
       await this.fetchVinyls();
     },
@@ -1050,6 +1203,10 @@ export default {
       if (idx == 0) {return ""}
       return this.conditions[idx-1]
     },
+    idxToFormat(idx) {
+      if (idx == 0) {return ""}
+      return this.formats[idx-1]
+    },
     idxToGenre(idx) {
       if (idx == 0) {return ""}
       return this.genres[idx-1]
@@ -1059,11 +1216,15 @@ export default {
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     },
     async randomVinyl() {
+      if (this.vinyls.length == 0) {
+        return;
+      }
       for (let i = 0; i < 10; i++) {
         var randomIndex = Math.floor(Math.random() * this.vinyls.length);
         this.selectedVinyl = this.vinyls[randomIndex]
         await this.sleep(50)
       }
+      this.setSelectShelfslot(this.selectedVinyl.ShelfslotID);
     },
     sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
@@ -1113,6 +1274,60 @@ select {
   border: none;
 }
 
+.detail_fnp {
+  margin-top: 15px;
+}
+
+.fnp_content {
+  margin: 10px;
+  margin-bottom: 0;
+}
+
+.addAlbumPrice {
+  width: 100px;
+}
+
+.priceAndFormat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.priceAndFormat .sleeve {
+  margin: 20px;
+}
+
+.priceAndFormat .media {
+  margin: 20px;
+}
+
+.isNotVinyls {
+  font-size: 20px;
+  margin-top: 30px;
+}
+
+.addAlbumCoversSearchQuery {
+  width: 230px;
+  height: 28px;
+  border: none;
+}
+
+.addAlbumCoversSearchButton {
+  width: 70px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #2a2e32;
+}
+
+.addAlbumCoversWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #2a2e32;
+  width: 100%;
+  height: 30px;
+}
+
 .modalButton {
   background-color: white;
   border: none;
@@ -1133,7 +1348,7 @@ select {
 
 .albumCoversResult {
   width: 100%;
-  max-height: 275px;
+  max-height: 269px;
   overflow-y: auto;
 }
 

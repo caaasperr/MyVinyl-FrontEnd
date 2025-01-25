@@ -1,11 +1,11 @@
 <template>
     <header>
         <div class="title_nav">
-            <router-link to="/vinyls"><div class="nav_item">Vinyls</div></router-link>
+            <router-link to="/vinyl"><div class="nav_item">Vinyl</div></router-link>
             <router-link to="/shelves"><div class="nav_item">Shelves</div></router-link>
             <router-link to="/profile"><div class="nav_item">Profile</div></router-link>
         </div>
-        <a href="http://myvinyls.org/" class="title">MyVinyls</a>
+        <a href="https://recordbox.org/" class="title">RecordBox</a>
         <div class="username">{{ username }}</div>
     </header>
 </template>

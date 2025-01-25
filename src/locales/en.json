@@ -1,15 +1,15 @@
 {
     "greeting": "Hello",
     "main": {
-        "title": "MYVINYLS",
+        "title": "RecordBox",
         "subtitle": "Music, organize on my own shelf",
         "content1": "✅ Precious collection, easy to see at a glance.",
-        "content2": "✅ Manage vinyls by locations.",
+        "content2": "✅ Manage vinyl by locations.",
         "content3": "✅ Share my vinyl collection.",
-        "content4": "Using MYVINYLS, you can easily manage your vinyl collection by list. (Gridview is on developement)",
-        "content5": "You can also manage your vinyls by shelf which you can customize the shape and size of the shelf.",
+        "content4": "Using TrackBox, you can easily manage your vinyl collection by list. (Gridview is on developement)",
+        "content5": "You can also manage your vinyl by shelf which you can customize the shape and size of the shelf.",
         "content6":" Customize the items of listview for your preference.",
-        "content7": "Shelf can help you to find the vinyls you want to listen to from a vast collection.",
+        "content7": "Shelf can help you to find the vinyl you want to listen to from a vast collection.",
         "startButton": "Get Started"
     },
     "login": {
@@ -53,13 +53,13 @@
         "title": "My Shelves"
     },
     "vinyllist": {
-        "title": "My Vinyls",
+        "title": "My Vinyl",
         "addvinyl": "Add Vinyl",
         "remove": "Remove",
         "pickrandom": "Random",
         "toshelf": "To Shelf",
         "setting": "Setting",
-        "nonVinyl": "Add vinyls to manage your collection!",
+        "nonVinyl": "Add vinyl to manage your collection!",
         "detail": {
             "detailTitle": "Detail",
             "conditionTitle": "Condition",

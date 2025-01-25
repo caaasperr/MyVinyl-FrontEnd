@@ -22,7 +22,7 @@
 </div>
 <modal v-if="isRemovingAccount" @close="isRemovingAccount = false">
   <template #header>
-    <p>Removing vinyls</p>
+    <p>Removing vinyl</p>
   </template>
   <template #body>
     <p>Are you sure you want to delete your account?</p>
@@ -55,7 +55,6 @@ export default {
       try {
         const response = await apiClient.get('/user');
         this.profile = response.data;
-        console.log(response)
       } catch (error) {
         console.error('Error fetching profile:', error);
       }

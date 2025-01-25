@@ -22,7 +22,7 @@
         </div>
         <div class="content">{{ $t("main.content5") }}</div>
         <div class="content">{{ $t("main.content7") }}</div>
-        <div class="copyright">© 2025. MyVinyls All rights reserved.</div>
+        <div class="copyright">© 2025. TrackBox All rights reserved.</div>
       </div>
       <div v-if="authed">
         <!--
@@ -56,7 +56,7 @@ export default {
     try {
       await apiClient.get('/auth/session');
       this.authed = true;
-      this.$router.push('/vinyls');
+      this.$router.push('/vinyl');
     } catch(err) {
       this.authed = false;
     }

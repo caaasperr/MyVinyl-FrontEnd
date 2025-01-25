@@ -657,7 +657,7 @@
           alt="Album"
           width="300px"
           height="300px"
-          src="../assets/notfound.jpeg"
+          src="../assets/logoo.png"
           @error="onImageError"
         />
         <h2>{{ $t("vinyllist.error.albumNull") }}</h2>
@@ -784,6 +784,7 @@
                 height="50px"
                 class="pure-img"
                 :src="vinyl.ImageURL"
+                @error="onImageError"
               />
             </td>
             <td v-if="setting.listItem.includes('name')">{{ vinyl.Name }}</td>
@@ -850,10 +851,10 @@
   <!--Modal Zones-->
   <modal v-if="isRemovingVinyls" @close="isRemovingVinyls = false">
     <template #header>
-      <p>Removing vinyls</p>
+      <p>Removing vinyl</p>
     </template>
     <template #body>
-      <p>Are you sure you want to remove selected vinyls? ({{ selectedVinyls.length }})</p>
+      <p>Are you sure you want to remove selected vinyl? ({{ selectedVinyls.length }})</p>
     </template>
     <template #footer>
       <button @click="isRemovingVinyls = false;" class="modalButton">Close</button>
@@ -862,7 +863,7 @@
   </modal>
   <modal v-if="isUpdatingShelf" @close="isUpdatingShelf = false">
     <template #header>
-      <p>Vinyls To Shelf</p>
+      <p>Vinyl To Shelf</p>
     </template>
     <template #body>
       <select
@@ -1201,7 +1202,7 @@ export default {
       return this.selectedVinylShelf.Slots.find(slot => slot.Row === row && slot.Column === col);
     },
     onImageError(event) {
-      event.target.src = require("@/assets/notfound.jpeg");
+      event.target.src = require("@/assets/logoo.png");
     },
     idxToCondition(idx) {
       if (idx == 0) {return ""}

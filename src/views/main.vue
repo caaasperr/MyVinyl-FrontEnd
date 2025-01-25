@@ -1,19 +1,39 @@
 <template>
     <div class="wrapper" :style="{ height: `calc(var(--vh, 1vh) * 100 - 51px)` }">
       <div v-if="!authed">
-        <img class="logo" width="250px" height="250px">
+        <img class="logo" src="../assets/logoo.png" width="300px" height="300px">
         <div class="title">{{ $t("main.title") }}</div>
         <div class="subtitle">{{ $t("main.subtitle") }}</div>
         <div class="content">{{ $t("main.content1") }}</div>
         <div class="content">{{ $t("main.content2") }}</div>
-        <div class="content">{{ $t("main.content3") }}</div>
+        <!--<div class="content">{{ $t("main.content3") }}</div>-->
         <br>
         <button @click="$router.push('login')">{{ $t("main.startButton") }}</button>
+        <br>
+        <img class="arrow" src="../assets/arrow.png" width="50px">
+        <br>
+        <img src="../assets/preview6.png" width="800px">
+        <div class="content">{{ $t("main.content4") }}</div>
+        <div class="content">{{ $t("main.content6") }}</div>
+        <div class="block"></div>
+        <div class="preview-flex">
+          <img src="../assets/preview5.png" width="500px">
+          <img src="../assets/preview4.png" width="500px">
+        </div>
+        <div class="content">{{ $t("main.content5") }}</div>
+        <div class="content">{{ $t("main.content7") }}</div>
+        <div class="copyright">© 2025. MyVinyls All rights reserved.</div>
       </div>
       <div v-if="authed">
+        <!--
         <img class="logo" width="250px" height="250px">
         <div class="search_bar">
-        </div>
+          <select v-model="searchType" class="searchType">
+            <option value="Title">Title</option>
+            <option value="Artist">Artist</option>
+          </select>
+          <input type="text" v-model="searchQuery" class="searchQuery" @input="searchVinyls" />
+        </div>-->
       </div>
     </div>
 </template>
@@ -25,6 +45,8 @@ export default {
   name: "MainView",
   data() {
     return {
+      searchType: 'Title',
+      searchQuery: '',
       authed: false,
     }
   },
@@ -34,6 +56,7 @@ export default {
     try {
       await apiClient.get('/auth/session');
       this.authed = true;
+      this.$router.push('/vinyls');
     } catch(err) {
       this.authed = false;
     }
@@ -42,6 +65,9 @@ export default {
     window.removeEventListener("resize", this.updateViewportHeight);
   },
   methods: {
+    searchVinyls() {
+      console.log(this.searchType, this.searchQuery);
+    },
     updateViewportHeight() {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
@@ -51,6 +77,25 @@ export default {
 </script>
 
 <style scoped>
+
+.copyright {
+  margin-top: 150px;
+  margin-bottom: 10px;
+  color: darkgray;
+}
+
+.block {
+  margin: 150px;
+}
+
+.preview-flex {
+  display: flex;
+  justify-content: center;
+}
+.arrow {
+  margin: 20px;
+  margin-bottom: 150px;
+}
 .logo {
   margin-top: 150px;
 }

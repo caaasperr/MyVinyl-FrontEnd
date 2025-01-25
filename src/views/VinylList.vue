@@ -8,7 +8,7 @@
         <p class="created_date">{{ selectedVinyl.CreatedAt.split("T")[0] }}</p>
         <p
           class="editButton"
-          @click="isShowDetail = false; isEditingVinyl = true; editingVinylData = selectedVinyl; selectedVinyl = [];"
+          @click="isShowDetail = false; isEditingVinyl = true; isAddingVinyl = false; editingVinylData = selectedVinyl; selectedVinyl = [];"
         >
           Edit
         </p>
@@ -186,7 +186,7 @@
                   id="multi-state"
                   class="pure-input-1-2"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option v-for="(g, idx) in genres" :key="idx" :value="idx+1">
@@ -199,6 +199,8 @@
                   v-model="addVinylData.ReleasedDate"
                   type="number"
                   placeholder="Year"
+                  min="0"
+                  @input="validateYear"
                 />
               </div>
               <div class="addAlbumClearSubmitContainer">
@@ -230,7 +232,7 @@
                   class="pure-input-1-2"
                   v-model="addVinylData.Format"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option
@@ -251,6 +253,8 @@
                   type="number"
                   v-model="addVinylData.Price"
                   placeholder="Amount"
+                  min="0"
+                  @input="validateYear"
                 />
               </div>
             </div>
@@ -269,7 +273,7 @@
                   class="pure-input-1-2"
                   v-model="addVinylData.sleeve"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option
@@ -290,7 +294,7 @@
                   class="pure-input-1-2"
                   v-model="addVinylData.media"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option
@@ -318,7 +322,7 @@
               v-model="selectedShelf"
               @change="getShelf"
             >
-              <option value="0">
+              <option :value="0">
                 {{ $t("vinyllist.addAlbum.dropdownNone") }}
               </option>
               <option v-for="(s, idx) in shelves" :key="idx" :value="s.ID">
@@ -405,7 +409,7 @@
                   id="multi-state"
                   class="pure-input-1-2"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option v-for="(g, idx) in genres" :key="idx" :value="idx+1">
@@ -446,7 +450,7 @@
                   class="pure-input-1-2"
                   v-model="editingVinylData.Format"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option
@@ -485,7 +489,7 @@
                   class="pure-input-1-2"
                   v-model="editingVinylData.Sleeve"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option
@@ -506,7 +510,7 @@
                   class="pure-input-1-2"
                   v-model="editingVinylData.Media"
                 >
-                  <option value="0">
+                  <option :value="0">
                     {{ $t("vinyllist.addAlbum.dropdownNone") }}
                   </option>
                   <option
@@ -867,7 +871,7 @@
         v-model="selectedShelf"
         @change="getShelf"
       >
-        <option value="0">
+        <option :value="0">
           {{ $t("vinyllist.addAlbum.dropdownNone") }}
         </option>
         <option v-for="(s, idx) in shelves" :key="idx" :value="s.ID">
@@ -1022,6 +1026,11 @@ export default {
     window.removeEventListener("resize", this.updateViewportHeight);
   },
   methods: {
+    validateYear() {
+      if (this.addVinylData.ReleasedDate < 0) {
+        this.addVinylData.ReleasedDate = 0;
+      }
+    },
     openUpdateShelves() {
       if (this.selectedVinyls.length === 0) {
         return; // 선택된 바이닐이 없으면 메서드 실행 안 함
@@ -1055,11 +1064,11 @@ export default {
           this.isShowDetail = true;
           this.fetchVinyls();
         } catch (error) {
-          console.error('Error creating vinyl:', error);
+          console.error('Error creating vinyl');
         }
     },
     async updateShelves() {
-      if (this.selectedVinyls.length === 0 || this.updatingShelfSelectedSlot === 0) {
+      if (this.selectedVinyls.length === 0) {
         return; // 선택된 바이닐이 없으면 메서드 실행 안 함
       }
       for (const id of this.selectedVinyls) {
@@ -1074,7 +1083,7 @@ export default {
       var data = {
         ShelfslotID: sId
       }
-      await apiClient.put('/vinyls/' + id, data);
+      await apiClient.put('/vinyls/' + id + '/slot', data);
     },
     setListMaxNumber() {
       this.$cookies.set('listMaxNumber', this.setting.listMaxNumber);
@@ -1108,7 +1117,6 @@ export default {
         this.albumCoverReq.Name = this.addEditAlbumSearchQuery;
         const response = await apiClient.post('/vinyls/covers', this.albumCoverReq);
         this.resultCovers = response.data['albums'];
-        console.log(response.data['albums']);
       } catch (error) {
         console.error('Error fetching vinyls:', error);
       }
@@ -1127,7 +1135,6 @@ export default {
       try {
         const response = await apiClient.get('/vinyls');
         this.vinyls = response.data;
-        console.log(response)
       } catch (error) {
         console.error('Error fetching vinyls:', error);
       }
@@ -1146,7 +1153,6 @@ export default {
       try {
         const response = await apiClient.get('/shelves/' + this.selectedShelf);
         this.shelf = response.data;
-        console.log(response);
       } catch (error) {
         console.error('Error fetching Shelf:', error);
       }
@@ -1178,7 +1184,6 @@ export default {
       if (id === 0) return;
       try {
         const response = await apiClient.get('/slots/' + id);
-        console.log(response);
         await this.getShelfForView(response.data.BookshelfID);
       } catch (error) {
         console.error('Error fetching Shelf:', error);
@@ -1188,7 +1193,6 @@ export default {
       try {
         const response = await apiClient.get('/shelves/' + id);
         this.selectedVinylShelf = response.data;
-        console.log(response);
       } catch (error) {
         console.error('Error fetching Shelf:', error);
       }
@@ -1235,7 +1239,6 @@ export default {
       } else {
         this.selectedVinyls = this.paginatedData.map((item) => item.ID);
       }
-      console.log(this.selectedVinyls)
     },
     toggleSelection(id) {
       if (this.selectedVinyls.includes(id)) {
@@ -1243,17 +1246,19 @@ export default {
       } else {
         this.selectedVinyls.push(id);
       }
-      console.log(this.selectedVinyls)
     },
     clearAddVinyl() {
       this.selectedShelf = 0;
       this.resultCovers = [];
+      this.addEditAlbumSearchQuery = '';
       this.addVinylData = {
         name: '',
         artist: '',
         GenreID: 0,
         ReleasedDate: '',
         ImageURL: '',
+        Format: 0,
+        Price: 0,
         ShelfslotID: 0,
         detail: '',
         sleeve: 0,

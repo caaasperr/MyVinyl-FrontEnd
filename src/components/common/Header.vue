@@ -5,7 +5,7 @@
             <router-link to="/shelves"><div class="nav_item">Shelves</div></router-link>
             <router-link to="/profile"><div class="nav_item">Profile</div></router-link>
         </div>
-        <a href="http://192.168.0.15:8081/" class="title">MyVinylS</a>
+        <a href="http://myvinyls.org/" class="title">MyVinyls</a>
         <div class="username">{{ username }}</div>
     </header>
 </template>

@@ -60,7 +60,7 @@
           this.getShelves();
         } catch (error) {
           this.isCreatingShelf = false;
-          console.error('Error creating shelf:', error);
+          console.error('Error creating shelf');
         }
       },
       async getShelves() {
@@ -68,7 +68,7 @@
           const response = await apiClient.get('/shelves');
           this.shelves = response.data;
         } catch (error) {
-          console.error('Error fetching profile:', error);
+          console.error('Error fetching profile');
         }
       },
       toShelf(id) {

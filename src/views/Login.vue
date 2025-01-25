@@ -22,13 +22,13 @@
               required
             />
           </div>
-          <a href="/reset_password">{{ $t('login.forgot_password') }}</a>
+          <!--<a href="/reset_password">{{ $t('login.forgot_password') }}</a>-->
           <div class="pure-controls">
-            <button type="submit" class="pure-button">{{$t('login.submit')}}</button>
+            <button type="submit" class="login-button">{{$t('login.submit')}}</button>
         </div>
           <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
         </form>
-        <p>{{$t('login.donthaveaccount')}} <a href="/signup">{{$t('login.signup')}}</a></p>
+        <p>{{$t('login.donthaveaccount')}} <a href="/#/signup">{{$t('login.signup')}}</a></p>
       </div>
     </div>
   </template>
@@ -66,6 +66,22 @@ export default {
 </script>
   
 <style scoped>
+
+label {
+  margin-right: 10px;
+}
+
+.pure-control-group {
+  margin: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-button {
+  margin-top: 20px;
+  width: 150px;
+}
 
 .login_page {
   flex: 1;

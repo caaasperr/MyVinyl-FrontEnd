@@ -3,26 +3,35 @@
       <h2>{{$t('signup.title')}}</h2>
       <div class="signup_container">
         <form class="signup_form" @submit.prevent="signup">
-          <input
-            type="text"
-            v-model="signupData.Username"
-            :placeholder="$t('signup.username')"
-            required
-          />
-          <input
-            type="password"
-            v-model="signupData.Password"
-            :placeholder="$t('signup.password')"
-            required
-          />
-          <input
-            type="password"
-            v-model="confirmPassword"
-            :placeholder="$t('signup.confirm')"
-            required
-          />
-          <button type="submit">{{$t('signup.submit')}}</button>
-          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+          <div class="input_wrapper">
+            <label>Username</label>
+            <input
+              type="text"
+              v-model="signupData.Username"
+              :placeholder="$t('signup.username')"
+              required
+            />
+          </div>
+          <div class="input_wrapper">
+            <label>Password</label>
+            <input
+              type="password"
+              v-model="signupData.Password"
+              :placeholder="$t('signup.password')"
+              required
+            />
+          </div>
+          <div class="input_wrapper">
+            <label style="margin: 0;">Confirm Password</label>
+            <input
+              type="password"
+              v-model="confirmPassword"
+              :placeholder="$t('signup.confirm')"
+              required
+            />
+          </div>
+          <button type="submit" class="submit">{{$t('signup.submit')}}</button>
+          <p v-if="errorMessage" class="error-message">Error: {{ errorMessage }}</p>
         </form>
       </div>
     </div>
@@ -68,6 +77,23 @@ export default {
 </script>
   
 <style scoped>
+
+label {
+    margin-right: 45px;
+}
+
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
+}
+
+.input_wrapper {
+  margin-bottom: 3px;
+}
+
 .signup_container {
     display: flex;
     flex-direction: column;
@@ -81,4 +107,10 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
+.submit {
+  margin-top: 20px;
+  width: 150px;
+}
+
 </style>

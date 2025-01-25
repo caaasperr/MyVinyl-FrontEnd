@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://192.168.0.15:8080/api/v1',
+  baseURL: 'http://api.myvinyls.org/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },

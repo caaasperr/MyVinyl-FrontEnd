@@ -139,18 +139,16 @@ export default {
         const response = await apiClient.get('/shelves/' + this.$route.params.id);
         this.shelf = response.data;
         this.refreshUpdateShelfData();
-        console.log(response);
       } catch (error) {
-        console.error('Error fetching Shelf:', error);
+        console.error('Error fetching Shelf');
       }
     },
     async deleteShelf() {
       try {
-        const response = await apiClient.delete('/shelves/' + this.$route.params.id);
+        await apiClient.delete('/shelves/' + this.$route.params.id);
         this.$router.push({path: '../shelves'});
-        console.log(response);
       } catch (error) {
-        console.error('Error fetching Shelf:', error);
+        console.error('Error fetching Shelf');
       }
     },
     getSlot(row, col) {
@@ -167,10 +165,9 @@ export default {
     },
     async updateShelf() {
       try {
-        const response = await apiClient.put('/shelves/' + this.$route.params.id, this.updateShelfData);
-        console.log(response);
+        await apiClient.put('/shelves/' + this.$route.params.id, this.updateShelfData);
       } catch (error) {
-        console.error('Error fetching Shelf:', error);
+        console.error('Error fetching Shelf');
       }
     },
     async updateShelfSlotState() {
@@ -179,10 +176,9 @@ export default {
           ID: parseInt(id), // ID로 변환
           State: state,     // State 키와 값 설정
         }));
-        const response = await apiClient.put('/shelves/' + this.$route.params.id + '/slots/state', {SlotsID: changeState});
-        console.log(response);
+        await apiClient.put('/shelves/' + this.$route.params.id + '/slots/state', {SlotsID: changeState});
       } catch (error) {
-        console.error('Error fetching Shelf:', error);
+        console.error('Error fetching Shelf');
       }
     },
     async getShelfslotVinyls(id) {
@@ -190,7 +186,7 @@ export default {
         const response = await apiClient.get('/shelves/' + this.$route.params.id + '/slots/' + id);
         this.vinyls = response.data
       } catch (error) {
-        console.error('Error fetching Shelf:', error);
+        console.error('Error fetching Shelf');
       }
     },
     updateJson(id, isChecked) {

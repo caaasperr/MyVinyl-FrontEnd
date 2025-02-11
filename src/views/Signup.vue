@@ -1,4 +1,5 @@
 <template>
+    <meta name="description" content="Sign up for managing your vinyl collection.">
     <div class="signup-page">
       <h2>{{$t('signup.title')}}</h2>
       <div class="signup_container">

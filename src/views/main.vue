@@ -2,13 +2,15 @@
     <div class="wrapper" :style="{ height: `calc(var(--vh, 1vh) * 100 - 51px)` }">
       <div v-if="!authed">
         <img class="logo" src="../assets/logoo.png" width="300px" height="300px">
-        <div class="title">{{ $t("main.title") }}</div>
-        <div class="subtitle">{{ $t("main.subtitle") }}</div>
+        <h1 class="title">{{ $t("main.title") }}</h1>
+        <h2 class="subtitle">{{ $t("main.subtitle") }}</h2>
         <div class="content">{{ $t("main.content1") }}</div>
         <div class="content">{{ $t("main.content2") }}</div>
         <!--<div class="content">{{ $t("main.content3") }}</div>-->
         <br>
-        <button @click="$router.push('login')">{{ $t("main.startButton") }}</button>
+        <router-link to="/login">
+          <button>{{ $t("main.startButton") }}</button>
+        </router-link>
         <br>
         <img class="arrow" src="../assets/arrow.png" width="50px">
         <br>
@@ -22,7 +24,7 @@
         </div>
         <div class="content">{{ $t("main.content5") }}</div>
         <div class="content">{{ $t("main.content7") }}</div>
-        <div class="copyright">© 2025. TrackBox All rights reserved.</div>
+        <div class="copyright">© 2025. RecordBox All rights reserved.</div>
       </div>
       <div v-if="authed">
         <!--

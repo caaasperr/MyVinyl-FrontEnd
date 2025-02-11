@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://api.recordbox.org:3000/api/v1',
+  baseURL: 'https://api.recordbox.org/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },

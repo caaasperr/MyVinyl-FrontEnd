@@ -1,4 +1,5 @@
 <template>
+    <meta name="description" content="Login to view and manage your vinyl collection.">
     <div class="login_page">
       <h2>{{ $t('login.title') }}</h2>
       <div class="login_container">

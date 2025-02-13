@@ -11,8 +11,10 @@
   "dependencies": {
     "axiom": "^0.1.6",
     "axios": "^1.7.9",
+    "compression-webpack-plugin": "^11.1.0",
     "core-js": "^3.40.0",
     "fuse.js": "^7.1.0",
+    "prerender-spa-plugin": "^3.4.0",
     "vue": "^3.2.13",
     "vue-cookies": "^1.8.5",
     "vue-i18n": "^11.1.1",

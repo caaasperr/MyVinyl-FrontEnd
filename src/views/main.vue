@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import apiClient from '@/services/api';
+//import apiClient from '@/services/api';
 
 export default {
   name: "MainView",
@@ -56,9 +56,9 @@ export default {
     this.updateViewportHeight();
     window.addEventListener("resize", this.updateViewportHeight);
     try {
-      await apiClient.get('/auth/session');
-      this.authed = true;
-      this.$router.push('/vinyl');
+      //await apiClient.get('/auth/session');
+      //this.authed = true;
+      //this.$router.push('/vinyl');
     } catch(err) {
       this.authed = false;
     }

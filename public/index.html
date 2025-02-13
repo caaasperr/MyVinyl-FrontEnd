@@ -1,37 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RecordBox</title>
+    <title>RecordBox - The Ultimate Vinyl Collection Manager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description" content="RecordBox is a powerful tool for managing vinyl collection.">
-    <meta name="keywords" content="Vinyl, Record, Album, 엘피, 바이닐, 레코드, LP, 음악 컬렉션, 바이닐 관리">
+    <meta name="description" content="RecordBox helps you manage your vinyl collection effortlessly. Organize, track, and enjoy your favorite records with ease.">
+    <meta name="keywords" content="vinyl collection, record manager, LP collection, vinyl tracker, music collection, record cataloging, 레코드, 바이닐 관리">
     <meta name="author" content="RecordBox">
-    <meta property="og:title" content="RecordBox">
-    <meta property="og:description" content="RecordBox is a powerful tool for managing vinyl collection.">
-    <meta property="og:image" content="<%= BASE_URL %>favicon.png">
+    <meta property="og:title" content="RecordBox - The Ultimate Vinyl Collection Manager">
+    <meta property="og:description" content="Discover the best way to manage and organize your vinyl records with RecordBox. Track, catalog, and enjoy your collection easily.">
+    <meta property="og:image" content="https://recordbox.org/img/preview6.2b2b05be.png">
     <meta property="og:url" content="https://recordbox.org">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="RecordBox">
-    <meta name="twitter:description" content="RecordBox is a powerful tool for managing vinyl collection.">
-    <meta name="twitter:image" content="<%= BASE_URL %>favicon.png">
-
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1W5VPNVP9"></script>
+    <meta name="twitter:title" content="RecordBox - Manage Your Vinyl Collection">
+    <meta name="twitter:description" content="Track, organize, and catalog your vinyl collection easily with RecordBox.">
+    <meta name="twitter:image" content="https://recordbox.org/img/preview6.2b2b05be.png">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="https://recordbox.org">
+    
+    <!-- Google Analytics -->
+    <script async defer src="https://www.googletagmanager.com/gtag/js?id=G-L1W5VPNVP9"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
       gtag('config', 'G-L1W5VPNVP9');
+    </script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "RecordBox",
+      "url": "https://recordbox.org",
+      "description": "RecordBox helps you manage your vinyl collection effortlessly. Organize, track, and enjoy your favorite records with ease.",
+      "image": "https://recordbox.org/img/preview6.2b2b05be.png",
+      "author": {
+        "@type": "Organization",
+        "name": "RecordBox"
+      }
+    }
     </script>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but RecordBox doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    
+    <nav style="display: hidden;">
+      <ul>
+        <li><a href="/login" title="Login">Login</a></li>
+        <li><a href="/signup" title="Sign Up">Sign Up</a></li>
+        <li><a href="/vinyl" title="Vinyl Collection">Vinyl Collection</a></li>
+      </ul>
+    </nav>
+    
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>

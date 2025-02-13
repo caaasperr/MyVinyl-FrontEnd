@@ -1413,9 +1413,7 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid #2a2e32;
-  position: absolute;
-  left: 0;
+  flex: 1;
   height: 100%;
 }
 
@@ -1425,7 +1423,7 @@ select {
 
 .searchQuery {
   height: 100%;
-  width: 200px;
+  flex: 1;
   text-align: left;
   background-color: transparent;
   border-left: 1px solid #2a2e32;

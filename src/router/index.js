@@ -37,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
-router.afterEach((to, from) => {
+router.afterEach((to) => {
   const title = to.meta.title === undefined ? 'RecordBox' : to.meta.title
   nextTick(() => {
     document.title = title

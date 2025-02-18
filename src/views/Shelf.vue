@@ -195,7 +195,7 @@ export default {
   },
   created() {
     this.getShelf().then(() => {
-      window.title = this.shelf.Name + " - RecordBox"
+      document.title = this.shelf.Name + " - RecordBox"
     });
   },
 };

@@ -86,7 +86,7 @@ export default {
   },
   created(){
     this.getProfile().then(() => {
-      window.title = this.profile.Username + " - RecordBox"
+      document.title = this.profile.Username + " - RecordBox"
     })
   }
 };

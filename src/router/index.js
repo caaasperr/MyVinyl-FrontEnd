@@ -25,7 +25,7 @@ const routes = [
       { path: 'vinyl', name: 'vinyl', component: VinylList, meta: { requiresAuth: true, title: 'Vinyl - RecordBox' } },
     ],
   },
-  { path: '/:pathMatch(.*)*', redirect: '/en' },
+  { path: '/:pathMatch(.*)*', redirect: '/ko' },
 ];
 
 const router = createRouter({
@@ -35,10 +35,10 @@ const router = createRouter({
 
 // 🔒 인증을 위한 라우터 가드
 router.beforeEach(async (to, from, next) => {
-  const locale = to.params.locale || 'en';
+  const locale = to.params.locale || 'ko';
   
   if (!supportedLocales.includes(locale)) {
-    return next('/en');
+    return next('/ko');
   }
 
   if (to.meta.requiresAuth) {

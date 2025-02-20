@@ -14,7 +14,6 @@ const supportedLocales = ['ko', 'en'];
 const routes = [
   {
     path: '/:locale(ko|en)?',
-    name: 'layout',
     component: { template: '<router-view />' },
     beforeEnter: (to, from, next) => {
       const locale = to.params.locale || 'en';
@@ -33,7 +32,7 @@ const routes = [
       { path: 'vinyl', name: 'vinyl', component: VinylList, meta: { requiresAuth: true, title: 'Vinyl - RecordBox' } },
     ],
   },
-  { path: '/:pathMatch(.*)*', redirect: '/ko' },
+  { path: '/:pathMatch(.*)*', redirect: '/en' },
 ];
 
 const router = createRouter({
@@ -43,18 +42,12 @@ const router = createRouter({
 
 // 🔒 인증 가드
 router.beforeEach(async (to, from, next) => {
-  const locale = to.params.locale || 'en';
-
-  if (!supportedLocales.includes(locale)) {
-    return next('/en');
-  }
-
   if (to.meta.requiresAuth) {
     try {
       await axios.get('https://api.recordbox.org/api/v1/auth/session', { withCredentials: true });
       next();
     } catch (error) {
-      next(`/${locale}/login`);
+      next(`/login`);
     }
   } else {
     next();

@@ -14,7 +14,15 @@ const supportedLocales = ['ko', 'en'];
 const routes = [
   {
     path: '/:locale(ko|en)?',
+    name: 'default',
     component: { template: '<router-view />' },
+    beforeEnter: (to, from, next) => {
+      const locale = to.params.locale || 'ko';
+      if (!supportedLocales.includes(locale)) {
+        return next('/ko');
+      }
+      next();
+    },
     children: [
       { path: '', name: 'home', component: Home, meta: { title: 'RecordBox' } },
       { path: 'login', name: 'login', component: Login, meta: { title: 'Login - RecordBox' } },
@@ -25,6 +33,7 @@ const routes = [
       { path: 'vinyl', name: 'vinyl', component: VinylList, meta: { requiresAuth: true, title: 'Vinyl - RecordBox' } },
     ],
   },
+  // 잘못된 경로를 언어별 홈으로 리디렉션
   { path: '/:pathMatch(.*)*', redirect: '/ko' },
 ];
 
@@ -36,10 +45,6 @@ const router = createRouter({
 // 🔒 인증을 위한 라우터 가드
 router.beforeEach(async (to, from, next) => {
   const locale = to.params.locale || 'ko';
-  
-  if (!supportedLocales.includes(locale)) {
-    return next('/ko');
-  }
 
   if (to.meta.requiresAuth) {
     try {

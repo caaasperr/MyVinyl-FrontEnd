@@ -22,7 +22,7 @@
 </div>
 <modal v-if="isRemovingAccount" @close="isRemovingAccount = false">
   <template #header>
-    <p>Removing vinyl</p>
+    <p>Removing Account</p>
   </template>
   <template #body>
     <p>Are you sure you want to delete your account?</p>

@@ -18,21 +18,6 @@ export default {
 }
 </script>
 
-<script setup>
-import { useRoute, useRouter } from 'vue-router';
-import { onMounted } from 'vue';
-
-onMounted(() => {
-  const route = useRoute();
-  const router = useRouter();
-
-  const locale = route.params.locale || 'ko';
-  if (!['ko', 'en'].includes(locale)) {
-    router.replace('/ko');
-  }
-});
-</script>
-
 <style>
 body, html {
   margin: 0;

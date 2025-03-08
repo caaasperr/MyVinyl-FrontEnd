@@ -14,6 +14,7 @@ const supportedLocales = ['ko', 'en'];
 const routes = [
   {
     path: '/:locale(ko|en)?',
+<<<<<<< HEAD
     name: 'layout',
     component: { template: '<router-view />' },
     beforeEnter: (to, from, next) => {
@@ -23,6 +24,9 @@ const routes = [
       }
       next();
     },
+=======
+    component: { template: '<router-view />' },
+>>>>>>> parent of b8ca747 (Update index.js)
     children: [
       { path: '', name: 'home', component: Home, meta: { title: 'RecordBox' } },
       { path: 'login', name: 'login', component: Login, meta: { title: 'Login - RecordBox' } },
@@ -43,10 +47,17 @@ const router = createRouter({
 
 // 🔒 인증 가드
 router.beforeEach(async (to, from, next) => {
+<<<<<<< HEAD
   const locale = to.params.locale || 'en';
 
   if (!supportedLocales.includes(locale)) {
     return next('/en');
+=======
+  const locale = to.params.locale || 'ko';
+  
+  if (!supportedLocales.includes(locale)) {
+    return next('/ko');
+>>>>>>> parent of b8ca747 (Update index.js)
   }
 
   if (to.meta.requiresAuth) {
